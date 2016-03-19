@@ -1,0 +1,856 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="AderantModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Activity">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="ActivityName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Category" Type="int" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Authorization">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="LawyerID" Type="int" Nullable="false" />
+          <Property Name="AssistantID" Type="int" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Client">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="ClientName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ContactID" Type="int" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Contact">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Address" Type="nvarchar" MaxLength="50" />
+          <Property Name="Email" Type="nvarchar" MaxLength="50" />
+          <Property Name="Mobile" Type="nvarchar" MaxLength="50" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Lawyer_Task_Client">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="LayerID" Type="int" Nullable="false" />
+          <Property Name="TaskID" Type="int" Nullable="false" />
+          <Property Name="ClientID" Type="int" Nullable="false" />
+          <Property Name="IsActive" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Lookup">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="EntityName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Code" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="100" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Office">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="OfficeLocation" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ClientID" Type="int" Nullable="false" />
+          <Property Name="TimeZone" Type="int" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Recording">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="LawyerID" Type="int" Nullable="false" />
+          <Property Name="ClientID" Type="int" Nullable="false" />
+          <Property Name="TaskID" Type="int" Nullable="false" />
+          <Property Name="AcitivityID" Type="int" Nullable="false" />
+          <Property Name="OfficeID" Type="int" Nullable="false" />
+          <Property Name="StartDateTime" Type="datetime" Nullable="false" />
+          <Property Name="EndDateTime" Type="datetime" Nullable="false" />
+          <Property Name="Duration" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="Comment" Type="nvarchar" MaxLength="50" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="CreateBy" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="CreateOn" Type="datetime" Nullable="false" />
+          <Property Name="UpdateBy" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="UpdateOn" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Task">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="TaskName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="OfficeID" Type="int" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="Username" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="RoleID" Type="int" Nullable="false" />
+          <Property Name="ContactID" Type="int" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="CreateBy" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="CreateOn" Type="datetime" Nullable="false" />
+          <Property Name="UpdateBy" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="UpdateOn" Type="datetime" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Authorization_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Authorization" Type="Self.Authorization" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Authorization">
+              <PropertyRef Name="LawyerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Authorization_User1">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Authorization" Type="Self.Authorization" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Authorization">
+              <PropertyRef Name="AssistantID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Layer_Task_Client_Client">
+          <End Role="Client" Type="Self.Client" Multiplicity="1" />
+          <End Role="Lawyer_Task_Client" Type="Self.Lawyer_Task_Client" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Lawyer_Task_Client">
+              <PropertyRef Name="ClientID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Layer_Task_Client_Task">
+          <End Role="Task" Type="Self.Task" Multiplicity="1" />
+          <End Role="Lawyer_Task_Client" Type="Self.Lawyer_Task_Client" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Task">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Lawyer_Task_Client">
+              <PropertyRef Name="TaskID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Layer_Task_Client_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Lawyer_Task_Client" Type="Self.Lawyer_Task_Client" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Lawyer_Task_Client">
+              <PropertyRef Name="LayerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Office_Client">
+          <End Role="Client" Type="Self.Client" Multiplicity="1" />
+          <End Role="Office" Type="Self.Office" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Office">
+              <PropertyRef Name="ClientID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Recording_Activity">
+          <End Role="Activity" Type="Self.Activity" Multiplicity="1" />
+          <End Role="Recording" Type="Self.Recording" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Activity">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Recording">
+              <PropertyRef Name="AcitivityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Recording_Client">
+          <End Role="Client" Type="Self.Client" Multiplicity="1" />
+          <End Role="Recording" Type="Self.Recording" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Recording">
+              <PropertyRef Name="ClientID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Recording_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Recording" Type="Self.Recording" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Recording">
+              <PropertyRef Name="LawyerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Task_Office">
+          <End Role="Office" Type="Self.Office" Multiplicity="1" />
+          <End Role="Task" Type="Self.Task" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Office">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Task">
+              <PropertyRef Name="OfficeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Contact">
+          <End Role="Contact" Type="Self.Contact" Multiplicity="1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contact">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="ContactID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Lookup">
+          <End Role="Lookup" Type="Self.Lookup" Multiplicity="1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Lookup">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AderantModelStoreContainer">
+          <EntitySet Name="Activity" EntityType="Self.Activity" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Authorization" EntityType="Self.Authorization" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Client" EntityType="Self.Client" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Contact" EntityType="Self.Contact" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Lawyer_Task_Client" EntityType="Self.Lawyer_Task_Client" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Lookup" EntityType="Self.Lookup" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Office" EntityType="Self.Office" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Recording" EntityType="Self.Recording" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Task" EntityType="Self.Task" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Authorization_User" Association="Self.FK_Authorization_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Authorization" EntitySet="Authorization" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Authorization_User1" Association="Self.FK_Authorization_User1">
+            <End Role="User" EntitySet="User" />
+            <End Role="Authorization" EntitySet="Authorization" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Layer_Task_Client_Client" Association="Self.FK_Layer_Task_Client_Client">
+            <End Role="Client" EntitySet="Client" />
+            <End Role="Lawyer_Task_Client" EntitySet="Lawyer_Task_Client" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Layer_Task_Client_Task" Association="Self.FK_Layer_Task_Client_Task">
+            <End Role="Task" EntitySet="Task" />
+            <End Role="Lawyer_Task_Client" EntitySet="Lawyer_Task_Client" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Layer_Task_Client_User" Association="Self.FK_Layer_Task_Client_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Lawyer_Task_Client" EntitySet="Lawyer_Task_Client" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Office_Client" Association="Self.FK_Office_Client">
+            <End Role="Client" EntitySet="Client" />
+            <End Role="Office" EntitySet="Office" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Recording_Activity" Association="Self.FK_Recording_Activity">
+            <End Role="Activity" EntitySet="Activity" />
+            <End Role="Recording" EntitySet="Recording" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Recording_Client" Association="Self.FK_Recording_Client">
+            <End Role="Client" EntitySet="Client" />
+            <End Role="Recording" EntitySet="Recording" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Recording_User" Association="Self.FK_Recording_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Recording" EntitySet="Recording" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Task_Office" Association="Self.FK_Task_Office">
+            <End Role="Office" EntitySet="Office" />
+            <End Role="Task" EntitySet="Task" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Contact" Association="Self.FK_User_Contact">
+            <End Role="Contact" EntitySet="Contact" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Lookup" Association="Self.FK_User_Lookup">
+            <End Role="Lookup" EntitySet="Lookup" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="AderantModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Activity">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="ActivityName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Category" Type="Int32" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Recordings" Relationship="Self.FK_Recording_Activity" FromRole="Activity" ToRole="Recording" />
+        </EntityType>
+        <EntityType Name="Authorization">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="LawyerID" Type="Int32" Nullable="false" />
+          <Property Name="AssistantID" Type="Int32" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="Self.FK_Authorization_User" FromRole="Authorization" ToRole="User" />
+          <NavigationProperty Name="User1" Relationship="Self.FK_Authorization_User1" FromRole="Authorization" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Client">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="ClientName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ContactID" Type="Int32" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Lawyer_Task_Client" Relationship="Self.FK_Layer_Task_Client_Client" FromRole="Client" ToRole="Lawyer_Task_Client" />
+          <NavigationProperty Name="Offices" Relationship="Self.FK_Office_Client" FromRole="Client" ToRole="Office" />
+          <NavigationProperty Name="Recordings" Relationship="Self.FK_Recording_Client" FromRole="Client" ToRole="Recording" />
+        </EntityType>
+        <EntityType Name="Contact">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Address" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Mobile" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_User_Contact" FromRole="Contact" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Lawyer_Task_Client">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="LayerID" Type="Int32" Nullable="false" />
+          <Property Name="TaskID" Type="Int32" Nullable="false" />
+          <Property Name="ClientID" Type="Int32" Nullable="false" />
+          <Property Name="IsActive" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Client" Relationship="Self.FK_Layer_Task_Client_Client" FromRole="Lawyer_Task_Client" ToRole="Client" />
+          <NavigationProperty Name="Task" Relationship="Self.FK_Layer_Task_Client_Task" FromRole="Lawyer_Task_Client" ToRole="Task" />
+          <NavigationProperty Name="User" Relationship="Self.FK_Layer_Task_Client_User" FromRole="Lawyer_Task_Client" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Lookup">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="EntityName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Code" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_User_Lookup" FromRole="Lookup" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Office">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="OfficeLocation" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ClientID" Type="Int32" Nullable="false" />
+          <Property Name="TimeZone" Type="Int32" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Client" Relationship="Self.FK_Office_Client" FromRole="Office" ToRole="Client" />
+          <NavigationProperty Name="Tasks" Relationship="Self.FK_Task_Office" FromRole="Office" ToRole="Task" />
+        </EntityType>
+        <EntityType Name="Recording">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="LawyerID" Type="Int32" Nullable="false" />
+          <Property Name="ClientID" Type="Int32" Nullable="false" />
+          <Property Name="TaskID" Type="Int32" Nullable="false" />
+          <Property Name="AcitivityID" Type="Int32" Nullable="false" />
+          <Property Name="OfficeID" Type="Int32" Nullable="false" />
+          <Property Name="StartDateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EndDateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Duration" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="Comment" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CreateOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UpdateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UpdateOn" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Activity" Relationship="Self.FK_Recording_Activity" FromRole="Recording" ToRole="Activity" />
+          <NavigationProperty Name="Client" Relationship="Self.FK_Recording_Client" FromRole="Recording" ToRole="Client" />
+          <NavigationProperty Name="User" Relationship="Self.FK_Recording_User" FromRole="Recording" ToRole="User" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Task">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="TaskName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="OfficeID" Type="Int32" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Lawyer_Task_Client" Relationship="Self.FK_Layer_Task_Client_Task" FromRole="Task" ToRole="Lawyer_Task_Client" />
+          <NavigationProperty Name="Office" Relationship="Self.FK_Task_Office" FromRole="Task" ToRole="Office" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="RoleID" Type="Int32" Nullable="false" />
+          <Property Name="ContactID" Type="Int32" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CreateOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UpdateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UpdateOn" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Authorizations" Relationship="Self.FK_Authorization_User" FromRole="User" ToRole="Authorization" />
+          <NavigationProperty Name="Authorizations1" Relationship="Self.FK_Authorization_User1" FromRole="User" ToRole="Authorization" />
+          <NavigationProperty Name="Contact" Relationship="Self.FK_User_Contact" FromRole="User" ToRole="Contact" />
+          <NavigationProperty Name="Lawyer_Task_Client" Relationship="Self.FK_Layer_Task_Client_User" FromRole="User" ToRole="Lawyer_Task_Client" />
+          <NavigationProperty Name="Lookup" Relationship="Self.FK_User_Lookup" FromRole="User" ToRole="Lookup" />
+          <NavigationProperty Name="Recordings" Relationship="Self.FK_Recording_User" FromRole="User" ToRole="Recording" />
+        </EntityType>
+        <Association Name="FK_Recording_Activity">
+          <End Role="Activity" Type="Self.Activity" Multiplicity="1" />
+          <End Role="Recording" Type="Self.Recording" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Activity">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Recording">
+              <PropertyRef Name="AcitivityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Authorization_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Authorization" Type="Self.Authorization" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Authorization">
+              <PropertyRef Name="LawyerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Authorization_User1">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Authorization" Type="Self.Authorization" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Authorization">
+              <PropertyRef Name="AssistantID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Layer_Task_Client_Client">
+          <End Role="Client" Type="Self.Client" Multiplicity="1" />
+          <End Role="Lawyer_Task_Client" Type="Self.Lawyer_Task_Client" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Lawyer_Task_Client">
+              <PropertyRef Name="ClientID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Office_Client">
+          <End Role="Client" Type="Self.Client" Multiplicity="1" />
+          <End Role="Office" Type="Self.Office" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Office">
+              <PropertyRef Name="ClientID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Recording_Client">
+          <End Role="Client" Type="Self.Client" Multiplicity="1" />
+          <End Role="Recording" Type="Self.Recording" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Recording">
+              <PropertyRef Name="ClientID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Contact">
+          <End Role="Contact" Type="Self.Contact" Multiplicity="1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contact">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="ContactID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Layer_Task_Client_Task">
+          <End Role="Task" Type="Self.Task" Multiplicity="1" />
+          <End Role="Lawyer_Task_Client" Type="Self.Lawyer_Task_Client" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Task">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Lawyer_Task_Client">
+              <PropertyRef Name="TaskID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Layer_Task_Client_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Lawyer_Task_Client" Type="Self.Lawyer_Task_Client" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Lawyer_Task_Client">
+              <PropertyRef Name="LayerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Lookup">
+          <End Role="Lookup" Type="Self.Lookup" Multiplicity="1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Lookup">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Task_Office">
+          <End Role="Office" Type="Self.Office" Multiplicity="1" />
+          <End Role="Task" Type="Self.Task" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Office">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Task">
+              <PropertyRef Name="OfficeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Recording_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Recording" Type="Self.Recording" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Recording">
+              <PropertyRef Name="LawyerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AderantEntities3" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Activities" EntityType="Self.Activity" />
+          <EntitySet Name="Authorizations" EntityType="Self.Authorization" />
+          <EntitySet Name="Clients" EntityType="Self.Client" />
+          <EntitySet Name="Contacts" EntityType="Self.Contact" />
+          <EntitySet Name="Lawyer_Task_Client" EntityType="Self.Lawyer_Task_Client" />
+          <EntitySet Name="Lookups" EntityType="Self.Lookup" />
+          <EntitySet Name="Offices" EntityType="Self.Office" />
+          <EntitySet Name="Recordings" EntityType="Self.Recording" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <EntitySet Name="Tasks" EntityType="Self.Task" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <AssociationSet Name="FK_Recording_Activity" Association="Self.FK_Recording_Activity">
+            <End Role="Activity" EntitySet="Activities" />
+            <End Role="Recording" EntitySet="Recordings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Authorization_User" Association="Self.FK_Authorization_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Authorization" EntitySet="Authorizations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Authorization_User1" Association="Self.FK_Authorization_User1">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Authorization" EntitySet="Authorizations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Layer_Task_Client_Client" Association="Self.FK_Layer_Task_Client_Client">
+            <End Role="Client" EntitySet="Clients" />
+            <End Role="Lawyer_Task_Client" EntitySet="Lawyer_Task_Client" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Office_Client" Association="Self.FK_Office_Client">
+            <End Role="Client" EntitySet="Clients" />
+            <End Role="Office" EntitySet="Offices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Recording_Client" Association="Self.FK_Recording_Client">
+            <End Role="Client" EntitySet="Clients" />
+            <End Role="Recording" EntitySet="Recordings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Contact" Association="Self.FK_User_Contact">
+            <End Role="Contact" EntitySet="Contacts" />
+            <End Role="User" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Layer_Task_Client_Task" Association="Self.FK_Layer_Task_Client_Task">
+            <End Role="Task" EntitySet="Tasks" />
+            <End Role="Lawyer_Task_Client" EntitySet="Lawyer_Task_Client" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Layer_Task_Client_User" Association="Self.FK_Layer_Task_Client_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Lawyer_Task_Client" EntitySet="Lawyer_Task_Client" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Lookup" Association="Self.FK_User_Lookup">
+            <End Role="Lookup" EntitySet="Lookups" />
+            <End Role="User" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Task_Office" Association="Self.FK_Task_Office">
+            <End Role="Office" EntitySet="Offices" />
+            <End Role="Task" EntitySet="Tasks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Recording_User" Association="Self.FK_Recording_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Recording" EntitySet="Recordings" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="AderantModelStoreContainer" CdmEntityContainer="AderantEntities3">
+          <EntitySetMapping Name="Activities">
+            <EntityTypeMapping TypeName="AderantModel.Activity">
+              <MappingFragment StoreEntitySet="Activity">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ActivityName" ColumnName="ActivityName" />
+                <ScalarProperty Name="Category" ColumnName="Category" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Authorizations">
+            <EntityTypeMapping TypeName="AderantModel.Authorization">
+              <MappingFragment StoreEntitySet="Authorization">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="LawyerID" ColumnName="LawyerID" />
+                <ScalarProperty Name="AssistantID" ColumnName="AssistantID" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Clients">
+            <EntityTypeMapping TypeName="AderantModel.Client">
+              <MappingFragment StoreEntitySet="Client">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ClientName" ColumnName="ClientName" />
+                <ScalarProperty Name="ContactID" ColumnName="ContactID" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Contacts">
+            <EntityTypeMapping TypeName="AderantModel.Contact">
+              <MappingFragment StoreEntitySet="Contact">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Lawyer_Task_Client">
+            <EntityTypeMapping TypeName="AderantModel.Lawyer_Task_Client">
+              <MappingFragment StoreEntitySet="Lawyer_Task_Client">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="LayerID" ColumnName="LayerID" />
+                <ScalarProperty Name="TaskID" ColumnName="TaskID" />
+                <ScalarProperty Name="ClientID" ColumnName="ClientID" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Lookups">
+            <EntityTypeMapping TypeName="AderantModel.Lookup">
+              <MappingFragment StoreEntitySet="Lookup">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="EntityName" ColumnName="EntityName" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Offices">
+            <EntityTypeMapping TypeName="AderantModel.Office">
+              <MappingFragment StoreEntitySet="Office">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="OfficeLocation" ColumnName="OfficeLocation" />
+                <ScalarProperty Name="ClientID" ColumnName="ClientID" />
+                <ScalarProperty Name="TimeZone" ColumnName="TimeZone" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Recordings">
+            <EntityTypeMapping TypeName="AderantModel.Recording">
+              <MappingFragment StoreEntitySet="Recording">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="LawyerID" ColumnName="LawyerID" />
+                <ScalarProperty Name="ClientID" ColumnName="ClientID" />
+                <ScalarProperty Name="TaskID" ColumnName="TaskID" />
+                <ScalarProperty Name="AcitivityID" ColumnName="AcitivityID" />
+                <ScalarProperty Name="OfficeID" ColumnName="OfficeID" />
+                <ScalarProperty Name="StartDateTime" ColumnName="StartDateTime" />
+                <ScalarProperty Name="EndDateTime" ColumnName="EndDateTime" />
+                <ScalarProperty Name="Duration" ColumnName="Duration" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="CreateOn" ColumnName="CreateOn" />
+                <ScalarProperty Name="UpdateBy" ColumnName="UpdateBy" />
+                <ScalarProperty Name="UpdateOn" ColumnName="UpdateOn" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="AderantModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tasks">
+            <EntityTypeMapping TypeName="AderantModel.Task">
+              <MappingFragment StoreEntitySet="Task">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="TaskName" ColumnName="TaskName" />
+                <ScalarProperty Name="OfficeID" ColumnName="OfficeID" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="AderantModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+                <ScalarProperty Name="ContactID" ColumnName="ContactID" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="CreateOn" ColumnName="CreateOn" />
+                <ScalarProperty Name="UpdateBy" ColumnName="UpdateBy" />
+                <ScalarProperty Name="UpdateOn" ColumnName="UpdateOn" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

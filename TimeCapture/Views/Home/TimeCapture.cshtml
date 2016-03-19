@@ -1,0 +1,327 @@
+﻿@{
+    ViewBag.Title = "Time Capture";
+    Layout = "";
+    var lawyerId = 0;
+    var assistantId = 0;
+    bool isLawyer = false;
+    isLawyer = (ViewBag.IsLawyer == null) ? false : ViewBag.IsLawyer;
+    if (isLawyer)
+    {
+        lawyerId = ViewBag.Id;
+    } else
+    {
+        assistantId = ViewBag.Id;
+    }
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="http://kendo.cdn.telerik.com/2016.1.226/styles/kendo.common.min.css" />
+    <link rel="stylesheet" href="http://kendo.cdn.telerik.com/2016.1.226/styles/kendo.rtl.min.css" />
+    <link rel="stylesheet" href="http://kendo.cdn.telerik.com/2016.1.226/styles/kendo.silver.min.css" />
+    <link rel="stylesheet" href="http://kendo.cdn.telerik.com/2016.1.226/styles/kendo.mobile.all.min.css" />
+
+    <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script src="http://kendo.cdn.telerik.com/2016.1.226/js/kendo.all.min.js"></script>
+</head>
+<body>
+    <div class="row" style="margin-top:10px;margin-bottom:10px">
+        @if (isLawyer)
+        {
+            <div class="col-sm-4">
+                <label for="lawyerDropDown" style="font-size:18px">Choose Lawyer: </label>
+                <input id="lawyerDropDown" />
+            </div>
+        }
+        <div class="col-sm-4">
+            <label for="lawyerDropDown" style="font-size:18px"><b>Choose Lawyer: </b></label>
+        </div>
+        <div class="col-sm-4" align="right">
+            @ViewBag.UserInfo
+        </div>
+    </div>
+    <div id="scheduler"></div>
+
+    <script type="text/x-kendo-template" id="CustomEditorTemplate">
+        <div class="formborder details-tab">
+            <div class="k-edit-label">
+                <label for="ClientId">Client</label>
+            </div>
+            <div data-container-for="ClientId" class="k-edit-field">
+                <select data-bind="value:ClientId" id="ClientId"></select>
+            </div>
+            <div class="k-edit-label">
+                <label for="OfficeId">Office</label>
+            </div>
+            <div data-container-for="OfficeId" class="k-edit-field">
+                <select data-bind="value:OfficeId" id="OfficeId"></select>
+            </div>
+            <div class="k-edit-label">
+                <label for="TaskId">Task</label>
+            </div>
+            <div data-container-for="TaskId" class="k-edit-field">
+                <select data-bind="value:TaskId" id="TaskId"></select>
+            </div>
+            <div class="k-edit-label">
+                <label for="AcitivityId">Activity</label>
+            </div>
+            <div data-container-for="ActivityId" class="k-edit-field">
+                <select data-bind="value:ActivityId" id="ActivityId"></select>
+            </div>
+
+            <div class="k-edit-label">
+                <label for="Start">Date</label>
+            </div>
+            <div class="k-edit-field">
+                <p>#= kendo.toString(start , "ddd dd MMM yyyy")#</p>
+            </div>
+            <div class="k-edit-label">
+                <label for="Start">Start Time</label>
+            </div>
+            <div data-container-for="start" class="k-edit-field">
+                <input name="start" required="required" style="z-index: inherit;" type="datetime"
+                       data-bind="value:start,invisible:isAllDay"
+                       data-format="HH:mm"
+                       data-role="timepicker" />
+
+                <input name="start" required="required" type="date" style="z-index: inherit;"
+                       data-bind="value:start,visible:isAllDay"
+                       data-format="HH:mm"
+                       data-role="timepicker" />
+
+                <span data-bind="text: startTimezone"></span>
+                <span data-for="start" class="k-invalid-msg"></span>
+            </div>
+
+            <div class="k-edit-label">
+                <label for="End">End Time</label>
+            </div>
+            <div data-container-for="end" class="k-edit-field">
+                <input name="end" required="required" style="z-index: inherit;" type="datetime"
+                       data-bind="value:end,invisible:isAllDay"
+                       data-format="HH:mm"
+                       data-role="timepicker" />
+
+                <input name="end" required="required" type="date" style="z-index: inherit;"
+                       data-bind="value:end,visible:isAllDay"
+                       data-format="HH:mm"
+                       data-role="timepicker" />
+
+                @*<span data-bind="text: startTimezone"></span>*@
+                <span data-for="end" class="k-invalid-msg"></span>
+            </div>
+        </div>
+    </script>
+
+
+    <script>
+        var lawyerId = 1;
+        var selectedLawyer, selectedLawyerId;
+        var assistantId = 2;
+        var selectedClientId, selectedClient;
+        var selectedOfficeId, selectedOffice;
+        var selectedTaskId, selectedTask;
+        var selectedActivityId,selectedActivity;
+        var officeDatasource;
+  
+        if (@isLawyer == true) {
+            loadRecords(lawyerId)
+        }
+
+        var clientDatasource = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: "@Url.Action("GetClients", "Home")",
+                    dataType: "json",
+                    data: {lawyerId: @lawyerId}
+                    //type: "POST"
+                }
+            }
+        });
+        var activityDatasource = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: "@Url.Action("GetActivities", "Home")",
+                    dataType: "json",
+                    //data: {lawyerId: @lawyerId}
+                    //type: "POST"
+                }
+            }
+        });
+
+        selectedLawyer = $("#lawyerDropDown").kendoDropDownList({
+            dataTextField: "LawyerName",
+            dataValueField: "LawyerID",
+            dataSource: {
+                transport: {
+                    serverFiltering: true,
+                    read: {
+                        type: "GET",
+                        url: '@Url.Action("GetLawyerByAssistant", "Home")',
+                        contentType: 'application/json; charset=utf-8',
+                        dataType: "json",
+                        data: { assistantId: assistantId },
+                        complete: function () {
+                            var len = selectedLawyer.dataSource.data().length;
+                            if (len > 0) {
+                                selectedLawyer.select(0);
+                                selectedLawyerId = selectedLawyer.value();
+                                loadRecords(selectedLawyerId);
+                            } else {
+                                kiwi.alert("No lawyer is available.")
+                            }
+
+                        }
+                    },
+                }
+            },
+
+            change: function () {
+                selectedLawyerId = selectedLawyer.value();
+                loadRecords(selectedLawyerId);
+            }
+        }).data("kendoDropDownList");
+
+        function loadRecords(selectedLawyerId) {
+            var lawyerId = selectedLawyerId;
+            console.log("loadRecords:selectedLawyerId:" + lawyerId);
+            $("#scheduler").kendoScheduler({
+                date: new Date("2016/3/18"),
+                allDaySlot: false,
+                showWorkHours: true,
+                views: [{ type: "day", showWorkHours: true }, { type: "week", selected: true }, "month"],
+                dataSource: {
+                    batch: true,
+                    transport: {
+                        read: {
+                            url: "@Url.Action("GetRecords","Home")",
+                            dataType: "json",
+                            data: { lawyerId: lawyerId },
+                            //type: "POST"
+                        },
+                        update: {
+                            url: "http://demos.telerik.com/kendo-ui/service/tasks/update",
+                            dataType: "jsonp"
+                        },
+                        create: {
+                            url: "http://demos.telerik.com/kendo-ui/service/tasks/create",
+                            dataType: "jsonp"
+                        },
+                        destroy: {
+                            url: "http://demos.telerik.com/kendo-ui/service/tasks/destroy",
+                            dataType: "jsonp"
+                        },
+                        parameterMap: function (options, operation) {
+                            if (operation !== "read" && options.models) {
+                                return { models: kendo.stringify(options.models) };
+                            }
+                        }
+                    },
+                    schema: {
+                        model: {
+                            id: "ID",
+                            fields: {
+                                ID: { type: "number" },
+                                title: { from: "Title", defaultValue: "No title", validation: { required: true } },
+                                start: { type: "date", from: "StartDateTime" },
+                                end: { type: "date", from: "EndDateTime" },
+                                comment: { from: "Comment" },
+                                clientId: { from: "ClientId" },
+                                officeId: { from: "OfficeId" },
+                                taskId: { from: "TaskId" },
+                                activityId: { from: "ActivityId" },
+                            }
+                        }
+                    }
+                },
+                editable: {
+                    template: kendo.template($('#CustomEditorTemplate').html())
+                },
+                edit: function (e) {
+                    selectedClient = $("#ClientId").kendoDropDownList({
+                        dataSource: clientDatasource,
+                        optionLabel: "Select Client",
+                        dataTextField: "Name",
+                        dataValueField: "Id",
+                        change: function () {
+                            selectedClientId = selectedClient.value();
+                            loadOffice(selectedClientId);
+                        }
+                    }).data("kendoDropDownList");
+
+                    $("#OfficeId").kendoDropDownList({
+                        optionLabel: "Select Office",
+                    });
+
+                    $("#TaskId").kendoDropDownList({
+                        optionLabel: "Select Task",
+                    });
+
+                    selectedActivity = $("#ActivityId").kendoDropDownList({
+                        dataSource: activityDatasource,
+                        optionLabel: "Select Activity",
+                        dataTextField: "Name",
+                        dataValueField: "Id",
+                        change: function () {
+                            selectedActivityId = selectedActivity.value();
+                            loadOffice(selectedActivityId);
+                        }
+                    }).data("kendoDropDownList");
+                },
+            });
+        }
+
+        function loadOffice(selectedClientId) {
+
+            officeDatasource = new kendo.data.DataSource({
+                transport: {
+                    read: {
+                        url: "@Url.Action("GetOffices", "Home")",
+                        dataType: "json",
+                        data: {clientId: selectedClientId}
+                        //type: "POST"
+                    }
+                }
+            });
+
+            selectedOffice = $("#OfficeId").kendoDropDownList({
+                dataSource: officeDatasource,
+                optionLabel: "Select Office",
+                dataTextField: "Name",
+                dataValueField: "Id",
+                change: function () {
+                    selectedOfficeId = selectedOffice.value();
+                    loadTask(selectedOfficeId);
+                }
+            }).data("kendoDropDownList");
+        }
+
+        function loadTask(selectedOfficeId) {
+
+            taskDatasource = new kendo.data.DataSource({
+                transport: {
+                    read: {
+                        url: "@Url.Action("GetTasks", "Home")",
+                        dataType: "json",
+                        data: {officeId: selectedOfficeId}
+                        //type: "POST"
+                    }
+                }
+            });
+
+            selectedTask = $("#TaskId").kendoDropDownList({
+                dataSource: taskDatasource,
+                optionLabel: "Select Task",
+                dataTextField: "Name",
+                dataValueField: "Id",
+                change: function () {
+                    selectedTaskId = selectedTask.value();
+                    //loadTask(selectedOfficeId);
+                }
+            }).data("kendoDropDownList");
+        }
+    </script>
+</body>
+</html>

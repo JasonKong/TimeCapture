@@ -1,0 +1,163 @@
+﻿@{
+    ViewBag.Title = "Contact";
+    Layout = "";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Kendo UI Snippet</title>
+
+    <link rel="stylesheet" href="http://kendo.cdn.telerik.com/2016.1.226/styles/kendo.common.min.css" />
+    <link rel="stylesheet" href="http://kendo.cdn.telerik.com/2016.1.226/styles/kendo.rtl.min.css" />
+    <link rel="stylesheet" href="http://kendo.cdn.telerik.com/2016.1.226/styles/kendo.silver.min.css" />
+    <link rel="stylesheet" href="http://kendo.cdn.telerik.com/2016.1.226/styles/kendo.mobile.all.min.css" />
+
+    <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script src="http://kendo.cdn.telerik.com/2016.1.226/js/kendo.all.min.js"></script>
+</head>
+<body>
+    <div class="col-md-4">
+        <label for="lawyerDropDown" style="font-size:18px"><b>Choose Lawyer: </b></label>
+        <input id="lawyerDropDown" />
+    </div>
+    <hr />
+    <div id="scheduler"></div>
+
+    <script type="text/x-kendo-template" id="CustomEditorTemplate">
+        <div class="formborder details-tab">
+            <div id="tenant-container">
+                <div class="k-edit-label">
+                    <label for="ClientId">Client</label>
+                </div>
+                <div data-container-for="ClientId" class="k-edit-field">
+                    <select data-bind="value:ClientId" id="ClientId"></select>
+                </div>
+            </div>
+
+        </div>
+    </script>
+
+
+    <script>
+        var lawyerId = 1;
+        var selectedLawyer, selectedLawyerId;
+        var assistantId = 2;
+
+        var clientDatasource = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: "@Url.Action("GetClients", "Home")",
+                    dataType: "json",
+                    //type: "POST"
+                }
+            }
+
+        });
+
+        selectedLawyer = $("#lawyerDropDown").kendoDropDownList({
+            dataTextField: "LawyerName",
+            dataValueField: "LawyerID",
+            dataSource: {
+                transport: {
+                    serverFiltering: true,
+                    read: {
+                        type: "GET",
+                        url: '@Url.Action("GetLawyerByAssistant", "Home")',
+                        contentType: 'application/json; charset=utf-8',
+                        dataType: "json",
+                        data: { assistantId: assistantId },
+                        complete: function () {
+                            var len = selectedLawyer.dataSource.data().length;
+                            if (len > 0) {
+                                selectedLawyer.select(0);
+                                selectedLawyerId = selectedLawyer.value();
+                                loadRecords(selectedLawyerId);
+                            } else {
+                                kiwi.alert("No lawyer is available.")
+                            }
+
+                        }
+                    },
+                }
+            },
+
+            change: function () {
+                selectedLawyerId = selectedLawyer.value();
+                loadRecords(selectedLawyerId);
+            }
+        }).data("kendoDropDownList");
+
+        function loadRecords(selectedLawyerId) {
+            var lawyerId = selectedLawyerId;
+            console.log("loadRecords:selectedLawyerId:" + lawyerId);
+            $("#scheduler").kendoScheduler({
+                date: new Date("2016/3/18"),
+                allDaySlot: false,
+                showWorkHours: true,
+                views: [{ type: "day", showWorkHours: true }, "week", "month"],
+                //dataSource: [
+                //  {
+                //      id: 1,
+                //      start: new Date("2016/3/18 08:00 AM"),
+                //      end: new Date("2016/3/18 09:00 AM"),
+                //      title: "Albany Law Firm"
+                //  }
+                //],
+                dataSource: {
+                    batch: true,
+                    transport: {
+                        read: {
+                            url: "@Url.Action("GetRecords","Home")",
+                            dataType: "json",
+                            data: { lawyerId: lawyerId },
+                            //type: "POST"
+                        },
+                        update: {
+                            url: "http://demos.telerik.com/kendo-ui/service/tasks/update",
+                            dataType: "jsonp"
+                        },
+                        create: {
+                            url: "http://demos.telerik.com/kendo-ui/service/tasks/create",
+                            dataType: "jsonp"
+                        },
+                        destroy: {
+                            url: "http://demos.telerik.com/kendo-ui/service/tasks/destroy",
+                            dataType: "jsonp"
+                        },
+                        parameterMap: function (options, operation) {
+                            if (operation !== "read" && options.models) {
+                                return { models: kendo.stringify(options.models) };
+                            }
+                        }
+                    },
+                    schema: {
+                        model: {
+                            id: "ID",
+                            fields: {
+                                ID: { type: "number" },
+                                title: { from: "Title", defaultValue: "No title", validation: { required: true } },
+                                start: { type: "date", from: "StartDateTime" },
+                                end: { type: "date", from: "EndDateTime" },
+                                comment: { from: "Comment" },
+                                clientId: { from: "ClientId" }
+                            }
+                        }
+                    }
+                },
+                editable: {
+                    template: kendo.template($('#CustomEditorTemplate').html())
+                },
+                edit: function (e) {
+                    $("#ClientId").kendoDropDownList({
+                        dataSource: clientDatasource,
+                        optionLabel: "Select Client",
+                        dataTextField: "Name",
+                        dataValueField: "Id"
+                    });
+                },
+            });
+        }
+    </script>
+</body>
+</html>

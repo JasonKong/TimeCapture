@@ -1,0 +1,52 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="container">
+    <div class="col-md-4">
+        <label for="assistantDropDown" style="font-size:18px"><b>Choose Assistant: </b></label>
+        <input id="assistantDropDown" />
+        <input type="submit" value="Authorization"/>
+    </div>
+    <div id="scheduler"></div>
+</div>
+<script>
+
+    var selectedAssistant, selectedAssistantId;
+
+    $(document).ready(function () {
+
+        selectedAssistant = $("#assistantDropDown").kendoDropDownList({
+            dataTextField: "AssistantName",
+            dataValueField: "AssistantId",
+            dataSource: {
+                transport: {
+                    serverFiltering: true,
+                    read: {
+                        type: "GET",
+                        url: '@Url.Action("GetAssistant", "Home")',
+                        contentType: 'application/json; charset=utf-8',
+                        dataType: "json",
+                        complete: function () {
+                            var len = selectedAssistant.dataSource.data().length;
+                            if (len > 0) {
+                                selectedAssistant.select(0);
+                                selectedAssistantId = selectedAssistant.value();
+                                //loadParent();
+                            } else {
+                                kiwi.alert("No assistant is available.")
+                            }
+
+                        }
+                    },
+                }
+            },
+
+            change: function () {
+                selectedAssistant = selectedAssistant.value();
+                //loadParent();
+            }
+        }).data("kendoDropDownList");
+    });
+
+</script>
