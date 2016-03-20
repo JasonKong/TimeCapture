@@ -44,7 +44,7 @@ namespace TimeCapture.Controllers
                                 {
                                     Id = currentUserId,
                                     Name = c.FirstName + " " + c.LastName + " (" + l.Description + ")",
-                                    IsLawyer = (l.Code == "A") ? true : false,
+                                    IsLawyer = (l.Code == "L") ? true : false,
                                 }).FirstOrDefault();
 
                 ViewBag.UserInfo = userInfo.Name;
@@ -196,6 +196,12 @@ namespace TimeCapture.Controllers
 
                 return Json(timeZones, JsonRequestBehavior.AllowGet);
             }
+        }
+
+        public ActionResult AddRecord(RecordViewModel model)
+        {
+
+            return View();
         }
     }
 }
