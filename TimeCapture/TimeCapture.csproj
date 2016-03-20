@@ -181,6 +181,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>TCEntity.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\TimeZone.cs">
+      <DependentUpon>TCEntity.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\User.cs">
       <DependentUpon>TCEntity.tt</DependentUpon>
     </Compile>

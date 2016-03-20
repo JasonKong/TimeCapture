@@ -13,10 +13,10 @@ namespace TimeCapture.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class AderantEntities3 : DbContext
+    public partial class AderantEntities5 : DbContext
     {
-        public AderantEntities3()
-            : base("name=AderantEntities3")
+        public AderantEntities5()
+            : base("name=AderantEntities5")
         {
         }
     
@@ -35,6 +35,7 @@ namespace TimeCapture.Models
         public virtual DbSet<Recording> Recordings { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<Task> Tasks { get; set; }
+        public virtual DbSet<TimeZone> TimeZones { get; set; }
         public virtual DbSet<User> Users { get; set; }
     }
 }

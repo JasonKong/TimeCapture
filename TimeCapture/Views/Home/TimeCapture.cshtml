@@ -3,12 +3,13 @@
     Layout = "";
     var lawyerId = 0;
     var assistantId = 0;
-    bool isLawyer = false;
+    var isLawyer = false;
     isLawyer = (ViewBag.IsLawyer == null) ? false : ViewBag.IsLawyer;
     if (isLawyer)
     {
         lawyerId = ViewBag.Id;
-    } else
+    }
+    else
     {
         assistantId = ViewBag.Id;
     }
@@ -27,54 +28,60 @@
     <script src="http://kendo.cdn.telerik.com/2016.1.226/js/kendo.all.min.js"></script>
 </head>
 <body>
-    <div class="row" style="margin-top:10px;margin-bottom:10px">
-        @if (isLawyer)
-        {
+    <div class="container">
+        <div class="row" style="margin-top:10px;margin-bottom:10px">
             <div class="col-sm-4">
-                <label for="lawyerDropDown" style="font-size:18px">Choose Lawyer: </label>
-                <input id="lawyerDropDown" />
+                @if (isLawyer)
+                {
+                    <label for="lawyerDropDown" style="font-size:18px">Choose Lawyer: </label>
+                    <input id="lawyerDropDown" />
+                }
             </div>
-        }
-        <div class="col-sm-4">
-            <label for="lawyerDropDown" style="font-size:18px"><b>Choose Lawyer: </b></label>
+            <div class="col-sm-4">
+            </div>
+            <div class="col-sm-4" align="right">
+                @ViewBag.UserInfo
+            </div>
         </div>
-        <div class="col-sm-4" align="right">
-            @ViewBag.UserInfo
-        </div>
+        @*<div class="row">
+            <div class="col-sm-4">
+                <label for="files" style="font-size:18px">Upload records: </label>
+                <input name="files" id="files" type="file" />
+            </div>
+        </div>*@
+        <div id="scheduler"></div>
     </div>
-    <div id="scheduler"></div>
-
-    <script type="text/x-kendo-template" id="CustomEditorTemplate">
+    <script type="text/x-kendo-template" id="RecordEditorTemplate">
         <div class="formborder details-tab">
             <div class="k-edit-label">
-                <label for="ClientId">Client</label>
+                <label for="clientId">Client</label>
             </div>
-            <div data-container-for="ClientId" class="k-edit-field">
-                <select data-bind="value:ClientId" id="ClientId"></select>
-            </div>
-            <div class="k-edit-label">
-                <label for="OfficeId">Office</label>
-            </div>
-            <div data-container-for="OfficeId" class="k-edit-field">
-                <select data-bind="value:OfficeId" id="OfficeId"></select>
+            <div data-container-for="clientId" class="k-edit-field">
+                <select data-bind="value:clientId" id="clientId"></select>
             </div>
             <div class="k-edit-label">
-                <label for="TaskId">Task</label>
+                <label for="officeId">Office</label>
             </div>
-            <div data-container-for="TaskId" class="k-edit-field">
-                <select data-bind="value:TaskId" id="TaskId"></select>
+            <div data-container-for="officeId" class="k-edit-field">
+                <select data-bind="value:officeId" id="officeId"></select>
             </div>
             <div class="k-edit-label">
-                <label for="AcitivityId">Activity</label>
+                <label for="taskId">Task</label>
             </div>
-            <div data-container-for="ActivityId" class="k-edit-field">
-                <select data-bind="value:ActivityId" id="ActivityId"></select>
+            <div data-container-for="taskId" class="k-edit-field">
+                <select data-bind="value:taskId" id="taskId"></select>
+            </div>
+            <div class="k-edit-label">
+                <label for="activityId">Activity</label>
+            </div>
+            <div data-container-for="activityId" class="k-edit-field">
+                <select data-bind="value:activityId" id="activityId"></select>
             </div>
 
             <div class="k-edit-label">
                 <label for="Start">Date</label>
             </div>
-            <div class="k-edit-field">
+            <div class="k-edit-field" style="padding-top: 6px;">
                 <p>#= kendo.toString(start , "ddd dd MMM yyyy")#</p>
             </div>
             <div class="k-edit-label">
@@ -112,81 +119,107 @@
                 @*<span data-bind="text: startTimezone"></span>*@
                 <span data-for="end" class="k-invalid-msg"></span>
             </div>
+            <div class="k-edit-label">
+                <label for="timeZoneId">Time Zone</label>
+            </div>
+            <div data-container-for="timeZoneId" class="k-edit-field">
+                <select data-bind="value:timeZoneId" id="timeZoneId" style="width: 70%"></select>
+            </div>
+
+            <div class="k-edit-label">
+                <label for="Comment">Comment</label>
+            </div>
+            <div data-container-for="Comment" class="k-edit-field">
+                <textarea name="Comment" class="k-textbox" data-bind="value:comment"></textarea>
+            </div>
         </div>
     </script>
 
 
     <script>
-        var lawyerId = 1;
+        var lawyerId;
         var selectedLawyer, selectedLawyerId;
         var assistantId = 2;
         var selectedClientId, selectedClient;
         var selectedOfficeId, selectedOffice;
         var selectedTaskId, selectedTask;
         var selectedActivityId,selectedActivity;
-        var officeDatasource;
-  
-        if (@isLawyer == true) {
-            loadRecords(lawyerId)
-        }
+        var selectedTimeZoneId,selectedTimeZone;
+        var clientDatasource, officeDatasource, taskDatasource,activityDatasource, timeZoneDatasource;
 
-        var clientDatasource = new kendo.data.DataSource({
-            transport: {
-                read: {
-                    url: "@Url.Action("GetClients", "Home")",
-                    dataType: "json",
-                    data: {lawyerId: @lawyerId}
-                    //type: "POST"
-                }
-            }
-        });
-        var activityDatasource = new kendo.data.DataSource({
-            transport: {
-                read: {
-                    url: "@Url.Action("GetActivities", "Home")",
-                    dataType: "json",
-                    //data: {lawyerId: @lawyerId}
-                    //type: "POST"
-                }
-            }
-        });
 
-        selectedLawyer = $("#lawyerDropDown").kendoDropDownList({
-            dataTextField: "LawyerName",
-            dataValueField: "LawyerID",
-            dataSource: {
-                transport: {
-                    serverFiltering: true,
-                    read: {
-                        type: "GET",
-                        url: '@Url.Action("GetLawyerByAssistant", "Home")',
-                        contentType: 'application/json; charset=utf-8',
-                        dataType: "json",
-                        data: { assistantId: assistantId },
-                        complete: function () {
-                            var len = selectedLawyer.dataSource.data().length;
-                            if (len > 0) {
-                                selectedLawyer.select(0);
-                                selectedLawyerId = selectedLawyer.value();
-                                loadRecords(selectedLawyerId);
-                            } else {
-                                kiwi.alert("No lawyer is available.")
-                            }
+        $(document).ready(function() {
+            var isLawyer = '@isLawyer';
 
+            if (isLawyer.toLowerCase== true) {
+                lawyerId = @lawyerId;
+                loadRecords(lawyerId);
+            } else {
+                selectedLawyer = $("#lawyerDropDown").kendoDropDownList({
+                    dataTextField: "LawyerName",
+                    dataValueField: "LawyerID",
+                    dataSource: {
+                        transport: {
+                            serverFiltering: true,
+                            read: {
+                                type: "GET",
+                                url: '@Url.Action("GetLawyerByAssistant", "Home")',
+                                contentType: 'application/json; charset=utf-8',
+                                dataType: "json",
+                                data: { assistantId: assistantId },
+                                complete: function () {
+                                    var len = selectedLawyer.dataSource.data().length;
+                                    if (len > 0) {
+                                        selectedLawyer.select(0);
+                                        selectedLawyerId = selectedLawyer.value();
+                                        loadRecords(selectedLawyerId);
+                                    } else {
+                                        kiwi.alert("No lawyer is available.")
+                                    }
+
+                                }
+                            },
                         }
                     },
-                }
-            },
 
-            change: function () {
-                selectedLawyerId = selectedLawyer.value();
-                loadRecords(selectedLawyerId);
+                    change: function () {
+                        selectedLawyerId = selectedLawyer.value();
+                        loadRecords(selectedLawyerId);
+                    }
+                }).data("kendoDropDownList");
             }
-        }).data("kendoDropDownList");
+
+            //$("#files").kendoUpload();
+        });
 
         function loadRecords(selectedLawyerId) {
-            var lawyerId = selectedLawyerId;
-            console.log("loadRecords:selectedLawyerId:" + lawyerId);
+            lawyerId = selectedLawyerId;
+            clientDatasource = new kendo.data.DataSource({
+                transport: {
+                    read: {
+                        url: "@Url.Action("GetClients", "Home")",
+                        dataType: "json",
+                        data: {lawyerId: lawyerId}
+                        //type: "POST"
+                    }
+                }
+            });
+            activityDatasource = new kendo.data.DataSource({
+                transport: {
+                    read: {
+                        url: "@Url.Action("GetActivities", "Home")",
+                        dataType: "json",
+                    }
+                }
+            });
+            timeZoneDatasource = new kendo.data.DataSource({
+                transport: {
+                    read: {
+                        url: "@Url.Action("GetTimeZones", "Home")",
+                    dataType: "json",
+                }
+            }
+            });
             $("#scheduler").kendoScheduler({
                 date: new Date("2016/3/18"),
                 allDaySlot: false,
@@ -227,20 +260,21 @@
                                 title: { from: "Title", defaultValue: "No title", validation: { required: true } },
                                 start: { type: "date", from: "StartDateTime" },
                                 end: { type: "date", from: "EndDateTime" },
-                                comment: { from: "Comment" },
+                                timeZoneId: { from: "TimeZoneId" },
                                 clientId: { from: "ClientId" },
                                 officeId: { from: "OfficeId" },
                                 taskId: { from: "TaskId" },
                                 activityId: { from: "ActivityId" },
+                                comment: {from:"Comment"}
                             }
                         }
                     }
                 },
                 editable: {
-                    template: kendo.template($('#CustomEditorTemplate').html())
+                    template: kendo.template($('#RecordEditorTemplate').html())
                 },
                 edit: function (e) {
-                    selectedClient = $("#ClientId").kendoDropDownList({
+                    selectedClient = $("#clientId").kendoDropDownList({
                         dataSource: clientDatasource,
                         optionLabel: "Select Client",
                         dataTextField: "Name",
@@ -251,22 +285,32 @@
                         }
                     }).data("kendoDropDownList");
 
-                    $("#OfficeId").kendoDropDownList({
+                    $("#officeId").kendoDropDownList({
                         optionLabel: "Select Office",
                     });
 
-                    $("#TaskId").kendoDropDownList({
+                    $("#taskId").kendoDropDownList({
                         optionLabel: "Select Task",
                     });
 
-                    selectedActivity = $("#ActivityId").kendoDropDownList({
+                    selectedActivity = $("#activityId").kendoDropDownList({
                         dataSource: activityDatasource,
                         optionLabel: "Select Activity",
                         dataTextField: "Name",
                         dataValueField: "Id",
                         change: function () {
                             selectedActivityId = selectedActivity.value();
-                            loadOffice(selectedActivityId);
+                            //loadOffice(selectedActivityId);
+                        }
+                    }).data("kendoDropDownList");
+
+                    selectedTimeZone = $("#timeZoneId").kendoDropDownList({
+                        dataSource: timeZoneDatasource,
+                        optionLabel: "Select Time Zone",
+                        dataTextField: "Name",
+                        dataValueField: "Id",
+                        change: function () {
+                            selectedTimeZoneId = selectedTimeZone.value();
                         }
                     }).data("kendoDropDownList");
                 },
@@ -286,7 +330,7 @@
                 }
             });
 
-            selectedOffice = $("#OfficeId").kendoDropDownList({
+            selectedOffice = $("#officeId").kendoDropDownList({
                 dataSource: officeDatasource,
                 optionLabel: "Select Office",
                 dataTextField: "Name",
@@ -311,7 +355,7 @@
                 }
             });
 
-            selectedTask = $("#TaskId").kendoDropDownList({
+            selectedTask = $("#taskId").kendoDropDownList({
                 dataSource: taskDatasource,
                 optionLabel: "Select Task",
                 dataTextField: "Name",

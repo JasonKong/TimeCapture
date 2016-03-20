@@ -4,18 +4,19 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="85bcb68b96b44b3f902b2ebcdda7578f" Name="Diagram1">
-        <EntityTypeShape EntityType="AderantModel.Activity" Width="1.5" PointX="3" PointY="2.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="AderantModel.Authorization" Width="1.5" PointX="5.25" PointY="6.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="AderantModel.Client" Width="1.5" PointX="3" PointY="11.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="AderantModel.Contact" Width="1.5" PointX="0.75" PointY="6.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="AderantModel.Lawyer_Task_Client" Width="1.5" PointX="8.25" PointY="6.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="AderantModel.Lookup" Width="1.5" PointX="0.75" PointY="2.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="AderantModel.Office" Width="1.5" PointX="3.75" PointY="14.75" IsExpanded="true" />
+      <Diagram DiagramId="06b0111a6b164c6ebb54ebaff86a24f0" Name="Diagram1">
+        <EntityTypeShape EntityType="AderantModel.Activity" Width="1.5" PointX="3" PointY="2.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="AderantModel.Authorization" Width="1.5" PointX="5.25" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="AderantModel.Client" Width="1.5" PointX="3" PointY="11.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="AderantModel.Contact" Width="1.5" PointX="0.75" PointY="6.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="AderantModel.Lawyer_Task_Client" Width="1.5" PointX="8.25" PointY="6.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="AderantModel.Lookup" Width="1.5" PointX="0.75" PointY="3.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="AderantModel.Office" Width="1.5" PointX="3.75" PointY="18" IsExpanded="true" />
         <EntityTypeShape EntityType="AderantModel.Recording" Width="1.5" PointX="5.25" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="AderantModel.sysdiagram" Width="1.5" PointX="7.75" PointY="2" IsExpanded="true" />
-        <EntityTypeShape EntityType="AderantModel.Task" Width="1.5" PointX="6" PointY="14.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="AderantModel.User" Width="1.5" PointX="3" PointY="6" IsExpanded="true" />
+        <EntityTypeShape EntityType="AderantModel.Task" Width="1.5" PointX="6" PointY="18.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="AderantModel.TimeZone" Width="1.5" PointX="3" PointY="14.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AderantModel.User" Width="1.5" PointX="3" PointY="6.125" IsExpanded="true" />
         <AssociationConnector Association="AderantModel.FK_Recording_Activity" ManuallyRouted="false" />
         <AssociationConnector Association="AderantModel.FK_Authorization_User" ManuallyRouted="false" />
         <AssociationConnector Association="AderantModel.FK_Authorization_User1" ManuallyRouted="false" />
@@ -27,6 +28,7 @@
         <AssociationConnector Association="AderantModel.FK_Layer_Task_Client_User" ManuallyRouted="false" />
         <AssociationConnector Association="AderantModel.FK_User_Lookup" ManuallyRouted="false" />
         <AssociationConnector Association="AderantModel.FK_Task_Office" ManuallyRouted="false" />
+        <AssociationConnector Association="AderantModel.FK_Recording_TimeZone" ManuallyRouted="false" />
         <AssociationConnector Association="AderantModel.FK_Recording_User" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>

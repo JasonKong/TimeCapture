@@ -71,7 +71,7 @@
           <Property Name="ID" Type="int" Nullable="false" />
           <Property Name="OfficeLocation" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="ClientID" Type="int" Nullable="false" />
-          <Property Name="TimeZone" Type="int" Nullable="false" />
+          <Property Name="TimeZoneID" Type="int" Nullable="false" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Recording">
@@ -86,7 +86,8 @@
           <Property Name="OfficeID" Type="int" Nullable="false" />
           <Property Name="StartDateTime" Type="datetime" Nullable="false" />
           <Property Name="EndDateTime" Type="datetime" Nullable="false" />
-          <Property Name="Duration" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="TimeZoneID" Type="int" />
+          <Property Name="Duration" Type="decimal" Precision="10" Scale="2" Nullable="false" />
           <Property Name="Comment" Type="nvarchar" MaxLength="50" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
           <Property Name="CreateBy" Type="nvarchar" MaxLength="50" Nullable="false" />
@@ -111,6 +112,15 @@
           <Property Name="ID" Type="int" Nullable="false" />
           <Property Name="TaskName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="OfficeID" Type="int" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TimeZone">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="TimeZoneName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="TimeDifference" Type="decimal" Precision="10" Scale="0" Nullable="false" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="User">
@@ -224,6 +234,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Recording_TimeZone">
+          <End Role="TimeZone" Type="Self.TimeZone" Multiplicity="0..1" />
+          <End Role="Recording" Type="Self.Recording" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TimeZone">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Recording">
+              <PropertyRef Name="TimeZoneID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Recording_User">
           <End Role="User" Type="Self.User" Multiplicity="1" />
           <End Role="Recording" Type="Self.Recording" Multiplicity="*" />
@@ -283,6 +305,7 @@
           <EntitySet Name="Recording" EntityType="Self.Recording" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Task" EntityType="Self.Task" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TimeZone" EntityType="Self.TimeZone" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Authorization_User" Association="Self.FK_Authorization_User">
             <End Role="User" EntitySet="User" />
@@ -314,6 +337,10 @@
           </AssociationSet>
           <AssociationSet Name="FK_Recording_Client" Association="Self.FK_Recording_Client">
             <End Role="Client" EntitySet="Client" />
+            <End Role="Recording" EntitySet="Recording" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Recording_TimeZone" Association="Self.FK_Recording_TimeZone">
+            <End Role="TimeZone" EntitySet="TimeZone" />
             <End Role="Recording" EntitySet="Recording" />
           </AssociationSet>
           <AssociationSet Name="FK_Recording_User" Association="Self.FK_Recording_User">
@@ -415,7 +442,7 @@
           <Property Name="ID" Type="Int32" Nullable="false" />
           <Property Name="OfficeLocation" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="ClientID" Type="Int32" Nullable="false" />
-          <Property Name="TimeZone" Type="Int32" Nullable="false" />
+          <Property Name="TimeZoneID" Type="Int32" Nullable="false" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Client" Relationship="Self.FK_Office_Client" FromRole="Office" ToRole="Client" />
           <NavigationProperty Name="Tasks" Relationship="Self.FK_Task_Office" FromRole="Office" ToRole="Task" />
@@ -432,7 +459,8 @@
           <Property Name="OfficeID" Type="Int32" Nullable="false" />
           <Property Name="StartDateTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="EndDateTime" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Duration" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="TimeZoneID" Type="Int32" />
+          <Property Name="Duration" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
           <Property Name="Comment" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
           <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
@@ -441,6 +469,7 @@
           <Property Name="UpdateOn" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="Activity" Relationship="Self.FK_Recording_Activity" FromRole="Recording" ToRole="Activity" />
           <NavigationProperty Name="Client" Relationship="Self.FK_Recording_Client" FromRole="Recording" ToRole="Client" />
+          <NavigationProperty Name="TimeZone" Relationship="Self.FK_Recording_TimeZone" FromRole="Recording" ToRole="TimeZone" />
           <NavigationProperty Name="User" Relationship="Self.FK_Recording_User" FromRole="Recording" ToRole="User" />
         </EntityType>
         <EntityType Name="sysdiagram">
@@ -463,6 +492,16 @@
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Lawyer_Task_Client" Relationship="Self.FK_Layer_Task_Client_Task" FromRole="Task" ToRole="Lawyer_Task_Client" />
           <NavigationProperty Name="Office" Relationship="Self.FK_Task_Office" FromRole="Task" ToRole="Office" />
+        </EntityType>
+        <EntityType Name="TimeZone">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="TimeZoneName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="TimeDifference" Type="Decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Recordings" Relationship="Self.FK_Recording_TimeZone" FromRole="TimeZone" ToRole="Recording" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -617,6 +656,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Recording_TimeZone">
+          <End Role="TimeZone" Type="Self.TimeZone" Multiplicity="0..1" />
+          <End Role="Recording" Type="Self.Recording" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TimeZone">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Recording">
+              <PropertyRef Name="TimeZoneID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Recording_User">
           <End Role="User" Type="Self.User" Multiplicity="1" />
           <End Role="Recording" Type="Self.Recording" Multiplicity="*" />
@@ -629,7 +680,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="AderantEntities3" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="AderantEntities5" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Activities" EntityType="Self.Activity" />
           <EntitySet Name="Authorizations" EntityType="Self.Authorization" />
           <EntitySet Name="Clients" EntityType="Self.Client" />
@@ -640,6 +691,7 @@
           <EntitySet Name="Recordings" EntityType="Self.Recording" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
           <EntitySet Name="Tasks" EntityType="Self.Task" />
+          <EntitySet Name="TimeZones" EntityType="Self.TimeZone" />
           <EntitySet Name="Users" EntityType="Self.User" />
           <AssociationSet Name="FK_Recording_Activity" Association="Self.FK_Recording_Activity">
             <End Role="Activity" EntitySet="Activities" />
@@ -685,6 +737,10 @@
             <End Role="Office" EntitySet="Offices" />
             <End Role="Task" EntitySet="Tasks" />
           </AssociationSet>
+          <AssociationSet Name="FK_Recording_TimeZone" Association="Self.FK_Recording_TimeZone">
+            <End Role="TimeZone" EntitySet="TimeZones" />
+            <End Role="Recording" EntitySet="Recordings" />
+          </AssociationSet>
           <AssociationSet Name="FK_Recording_User" Association="Self.FK_Recording_User">
             <End Role="User" EntitySet="Users" />
             <End Role="Recording" EntitySet="Recordings" />
@@ -695,7 +751,7 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="AderantModelStoreContainer" CdmEntityContainer="AderantEntities3">
+        <EntityContainerMapping StorageEntityContainer="AderantModelStoreContainer" CdmEntityContainer="AderantEntities5">
           <EntitySetMapping Name="Activities">
             <EntityTypeMapping TypeName="AderantModel.Activity">
               <MappingFragment StoreEntitySet="Activity">
@@ -767,7 +823,7 @@
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="OfficeLocation" ColumnName="OfficeLocation" />
                 <ScalarProperty Name="ClientID" ColumnName="ClientID" />
-                <ScalarProperty Name="TimeZone" ColumnName="TimeZone" />
+                <ScalarProperty Name="TimeZoneID" ColumnName="TimeZoneID" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -783,6 +839,7 @@
                 <ScalarProperty Name="OfficeID" ColumnName="OfficeID" />
                 <ScalarProperty Name="StartDateTime" ColumnName="StartDateTime" />
                 <ScalarProperty Name="EndDateTime" ColumnName="EndDateTime" />
+                <ScalarProperty Name="TimeZoneID" ColumnName="TimeZoneID" />
                 <ScalarProperty Name="Duration" ColumnName="Duration" />
                 <ScalarProperty Name="Comment" ColumnName="Comment" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
@@ -810,6 +867,16 @@
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="TaskName" ColumnName="TaskName" />
                 <ScalarProperty Name="OfficeID" ColumnName="OfficeID" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TimeZones">
+            <EntityTypeMapping TypeName="AderantModel.TimeZone">
+              <MappingFragment StoreEntitySet="TimeZone">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="TimeZoneName" ColumnName="TimeZoneName" />
+                <ScalarProperty Name="TimeDifference" ColumnName="TimeDifference" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
               </MappingFragment>
             </EntityTypeMapping>

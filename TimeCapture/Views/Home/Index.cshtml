@@ -1,14 +1,22 @@
 ﻿@{
     ViewBag.Title = "Home Page";
 }
-
+<hr />
 <div class="container">
-    <div class="col-md-4">
-        <label for="assistantDropDown" style="font-size:18px"><b>Choose Assistant: </b></label>
-        <input id="assistantDropDown" />
-        <input type="submit" value="Authorization"/>
+    <div class="row">
+        <div class="col-sm-6">
+            <label for="assistantDropDown" style="font-size:18px">Choose Assistant: </label>
+            <input id="assistantDropDown" />
+            <input class="btn btn-primary" type="submit" value="Authorization" />
+        </div>
     </div>
-    <div id="scheduler"></div>
+    <hr />
+    <div class="row">
+        <div class="col-sm-6 k-content">
+            <label for="files" style="font-size:18px">Upload records: </label>
+            <input name="files" id="files" type="file" />
+        </div>
+     </div>
 </div>
 <script>
 
@@ -47,6 +55,14 @@
                 //loadParent();
             }
         }).data("kendoDropDownList");
+
+        $("#files").kendoUpload({
+            async: {
+                saveUrl: "save",
+                removeUrl: "remove",
+                autoUpload: true
+            }
+        });
     });
 
 </script>

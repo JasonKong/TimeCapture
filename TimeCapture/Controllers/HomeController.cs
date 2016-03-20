@@ -34,7 +34,7 @@ namespace TimeCapture.Controllers
 
             int currentUserId = 2;
 
-            using (var db = new AderantEntities3())
+            using (var db = new AderantEntities5())
             {
                 var userInfo = (from u in db.Users
                                 join c in db.Contacts on u.ContactID equals c.ID
@@ -43,7 +43,7 @@ namespace TimeCapture.Controllers
                                 select new
                                 {
                                     Id = currentUserId,
-                                    Name = c.FirstName + " " + c.LastName + "(" + l.Description + ")",
+                                    Name = c.FirstName + " " + c.LastName + " (" + l.Description + ")",
                                     IsLawyer = (l.Code == "A") ? true : false,
                                 }).FirstOrDefault();
 
@@ -58,7 +58,7 @@ namespace TimeCapture.Controllers
 
         public ActionResult GetLawyerByAssistant(int assistantID)
         {
-            using (var db = new AderantEntities3())
+            using (var db = new AderantEntities5())
             {
                 // var layerList = db.Authorizations.Where(x => x.AssistantID == assistantID).ToList();
 
@@ -77,7 +77,7 @@ namespace TimeCapture.Controllers
 
         public ActionResult GetAssistant()
         {
-            using (var db = new AderantEntities3())
+            using (var db = new AderantEntities5())
             {
                 var AssistantList = (from u in db.Users
                                      join c in db.Contacts on u.ContactID equals c.ID
@@ -95,7 +95,7 @@ namespace TimeCapture.Controllers
         {
             lawyerId = 1;
 
-            using (var db = new AderantEntities3())
+            using (var db = new AderantEntities5())
             {
                 var recordlist = (from r in db.Recordings
                                   join c in db.Clients on r.ClientID equals c.ID
@@ -112,6 +112,7 @@ namespace TimeCapture.Controllers
                                       ActivityId = r.AcitivityID,
                                       StartDateTime = r.StartDateTime,
                                       EndDateTime = r.EndDateTime,
+                                      TimeZoneId = r.TimeZoneID,
                                       Comment = r.Comment
                                   }).ToList();
                 return Json(recordlist, JsonRequestBehavior.AllowGet);
@@ -120,7 +121,7 @@ namespace TimeCapture.Controllers
 
         public ActionResult GetClients(int lawyerId)
         {
-            using (var db = new AderantEntities3())
+            using (var db = new AderantEntities5())
             {
                 var clients = (from ltc in db.Lawyer_Task_Client
                                join c in db.Clients on ltc.ClientID equals c.ID
@@ -137,7 +138,7 @@ namespace TimeCapture.Controllers
 
         public ActionResult GetOffices(int clientId)
         {
-            using (var db = new AderantEntities3())
+            using (var db = new AderantEntities5())
             {
                 var offices = (from o in db.Offices
                                where o.ClientID == clientId
@@ -153,7 +154,7 @@ namespace TimeCapture.Controllers
 
         public ActionResult GetTasks(int officeId)
         {
-            using (var db = new AderantEntities3())
+            using (var db = new AderantEntities5())
             {
                 var offices = (from t in db.Tasks
                                where t.OfficeID == officeId
@@ -169,7 +170,7 @@ namespace TimeCapture.Controllers
 
         public ActionResult GetActivities()
         {
-            using (var db = new AderantEntities3())
+            using (var db = new AderantEntities5())
             {
                 var offices = (from t in db.Activities
                                select new
@@ -179,6 +180,21 @@ namespace TimeCapture.Controllers
                                }).ToList();
 
                 return Json(offices, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult GetTimeZones()
+        {
+            using (var db = new AderantEntities5())
+            {
+                var timeZones = (from t in db.TimeZones
+                               select new
+                               {
+                                   Id = t.ID,
+                                   Name = t.TimeZoneName
+                               }).ToList();
+
+                return Json(timeZones, JsonRequestBehavior.AllowGet);
             }
         }
     }

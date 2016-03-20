@@ -12,22 +12,20 @@ namespace TimeCapture.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Office
+    public partial class TimeZone
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Office()
+        public TimeZone()
         {
-            this.Tasks = new HashSet<Task>();
+            this.Recordings = new HashSet<Recording>();
         }
     
         public int ID { get; set; }
-        public string OfficeLocation { get; set; }
-        public int ClientID { get; set; }
-        public int TimeZoneID { get; set; }
+        public string TimeZoneName { get; set; }
+        public decimal TimeDifference { get; set; }
         public bool IsActive { get; set; }
     
-        public virtual Client Client { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Task> Tasks { get; set; }
+        public virtual ICollection<Recording> Recordings { get; set; }
     }
 }

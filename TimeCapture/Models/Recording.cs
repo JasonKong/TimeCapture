@@ -22,7 +22,8 @@ namespace TimeCapture.Models
         public int OfficeID { get; set; }
         public System.DateTime StartDateTime { get; set; }
         public System.DateTime EndDateTime { get; set; }
-        public Nullable<decimal> Duration { get; set; }
+        public Nullable<int> TimeZoneID { get; set; }
+        public decimal Duration { get; set; }
         public string Comment { get; set; }
         public bool IsActive { get; set; }
         public string CreateBy { get; set; }
@@ -32,6 +33,7 @@ namespace TimeCapture.Models
     
         public virtual Activity Activity { get; set; }
         public virtual Client Client { get; set; }
+        public virtual TimeZone TimeZone { get; set; }
         public virtual User User { get; set; }
     }
 }
