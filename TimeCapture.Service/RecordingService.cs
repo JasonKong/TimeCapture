@@ -1,28 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TimeCapture.Models;
 
 namespace TimeCapture.Service
 {
     public class RecordingService : IRecordingService
     {
-        public void DeleteRecording(RecordViewModel model)
+        public void DeleteRecording(Recording model)
         {
             throw new NotImplementedException();
         }
 
-        public void InsertRecording(RecordViewModel model)
+        public void InsertRecording(Recording model)
         {
-            // TODO
             throw new NotImplementedException();
         }
 
-        public void UpdateRecording(RecordViewModel model)
+        public void UpdateRecording(Recording model)
         {
             throw new NotImplementedException();
         }
+
     }
 }

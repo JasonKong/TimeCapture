@@ -33,11 +33,6 @@ namespace TimeCapture.Models
         public System.DateTime CreateOn { get; set; }
         public string UpdateBy { get; set; }
         public System.DateTime UpdateOn { get; set; }
-        public string PasswordHash { get; set; }
-        public string EmailConfirmationToken { get; set; }
-        public Nullable<bool> IsEmailConfirmationValid { get; set; }
-        public string PasswordResetToken { get; set; }
-        public Nullable<bool> IsPswResetTokenValid { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Authorization> Authorizations { get; set; }

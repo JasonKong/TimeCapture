@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="AderantModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="AderantModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Activity">
           <Key>
             <PropertyRef Name="ID" />
@@ -130,7 +130,6 @@
           <Property Name="ID" Type="int" Nullable="false" />
           <Property Name="Username" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Password" Type="nvarchar" MaxLength="100" Nullable="false" />
-          <Property Name="PasswordHash" Type="varchar" MaxLength="50" />
           <Property Name="RoleID" Type="int" Nullable="false" />
           <Property Name="ContactID" Type="int" Nullable="false" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
@@ -138,10 +137,6 @@
           <Property Name="CreateOn" Type="datetime" Nullable="false" />
           <Property Name="UpdateBy" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="UpdateOn" Type="datetime" Nullable="false" />
-          <Property Name="EmailConfirmationToken" Type="nvarchar(max)" />
-          <Property Name="IsEmailConfirmationValid" Type="bit" />
-          <Property Name="PasswordResetToken" Type="nvarchar(max)" />
-          <Property Name="IsPswResetTokenValid" Type="bit" />
         </EntityType>
         <Association Name="FK_Authorization_User">
           <End Role="User" Type="Self.User" Multiplicity="1" />
@@ -365,7 +360,8 @@
             <End Role="User" EntitySet="User" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="AderantModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -527,11 +523,6 @@
           <NavigationProperty Name="Lawyer_Task_Client" Relationship="Self.FK_Layer_Task_Client_User" FromRole="User" ToRole="Lawyer_Task_Client" />
           <NavigationProperty Name="Lookup" Relationship="Self.FK_User_Lookup" FromRole="User" ToRole="Lookup" />
           <NavigationProperty Name="Recordings" Relationship="Self.FK_Recording_User" FromRole="User" ToRole="Recording" />
-          <Property Name="PasswordHash" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="EmailConfirmationToken" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="IsEmailConfirmationValid" Type="Boolean" />
-          <Property Name="PasswordResetToken" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="IsPswResetTokenValid" Type="Boolean" />
         </EntityType>
         <Association Name="FK_Recording_Activity">
           <End Role="Activity" Type="Self.Activity" Multiplicity="1" />
@@ -689,7 +680,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="AderantEntities5" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="TCEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Activities" EntityType="Self.Activity" />
           <EntitySet Name="Authorizations" EntityType="Self.Authorization" />
           <EntitySet Name="Clients" EntityType="Self.Client" />
@@ -760,7 +751,7 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="AderantModelStoreContainer" CdmEntityContainer="AderantEntities5">
+        <EntityContainerMapping StorageEntityContainer="AderantModelStoreContainer" CdmEntityContainer="TCEntities">
           <EntitySetMapping Name="Activities">
             <EntityTypeMapping TypeName="AderantModel.Activity">
               <MappingFragment StoreEntitySet="Activity">
@@ -893,11 +884,6 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="AderantModel.User">
               <MappingFragment StoreEntitySet="User">
-                <ScalarProperty Name="IsPswResetTokenValid" ColumnName="IsPswResetTokenValid" />
-                <ScalarProperty Name="PasswordResetToken" ColumnName="PasswordResetToken" />
-                <ScalarProperty Name="IsEmailConfirmationValid" ColumnName="IsEmailConfirmationValid" />
-                <ScalarProperty Name="EmailConfirmationToken" ColumnName="EmailConfirmationToken" />
-                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Username" ColumnName="Username" />
                 <ScalarProperty Name="Password" ColumnName="Password" />

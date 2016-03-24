@@ -1,0 +1,28 @@
+﻿
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="~/Content/signin.css" rel="stylesheet" />
+        <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+        <title>@ViewBag.Title - Time capture</title>
+        @Styles.Render("~/Content/css")
+        @Scripts.Render("~/bundles/modernizr")
+    </head>
+    <body>
+        <div class="container">
+            @RenderBody()
+        </div>
+        <footer>
+            <hr />
+            <p class="row" style="padding:0 15px">&copy; @DateTime.Now.Year - Powered by Jason Kong</p>
+        </footer>
+
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/bootstrap")
+        @RenderSection("scripts", required: false)
+    </body>
+</html>
+
+

@@ -57,6 +57,10 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -122,14 +126,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -160,6 +160,7 @@
       <DependentUpon>TCEntity.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\RecordViewModel.cs" />
+    <Compile Include="Models\SiteUtil.cs" />
     <Compile Include="Models\sysdiagram.cs">
       <DependentUpon>TCEntity.tt</DependentUpon>
     </Compile>
@@ -192,6 +193,13 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Foundation\app.css" />
+    <Content Include="Content\Foundation\foundation-flex.css" />
+    <Content Include="Content\Foundation\foundation-icons.css" />
+    <Content Include="Content\Foundation\foundation.css" />
+    <Content Include="Content\Foundation\foundation.min.css" />
+    <Content Include="Content\Login.css" />
+    <Content Include="Content\signin.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -1217,6 +1225,14 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\Plugins\Foundation\app.js" />
+    <Content Include="Scripts\Plugins\Foundation\foundation.core.js" />
+    <Content Include="Scripts\Plugins\Foundation\foundation.js" />
+    <Content Include="Scripts\Plugins\Foundation\foundation.min.js" />
+    <Content Include="Scripts\Plugins\Foundation\foundation.util.triggers.js" />
+    <Content Include="Scripts\Plugins\Foundation\jquery.min.js" />
+    <Content Include="Scripts\Plugins\Foundation\jquery.reveal.js" />
+    <Content Include="Scripts\Plugins\moment.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
@@ -1235,6 +1251,8 @@
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\TimeCapture.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Shared\_LayoutNoHeader.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1249,6 +1267,16 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TimeCapture.Core\TimeCapture.Core.csproj">
+      <Project>{fe6d75d8-134a-43d4-81ed-17a2edfae5e6}</Project>
+      <Name>TimeCapture.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TimeCapture.Service\TimeCapture.Service.csproj">
+      <Project>{a80818fe-0b79-4f32-bdc2-62726bbaad1b}</Project>
+      <Name>TimeCapture.Service</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

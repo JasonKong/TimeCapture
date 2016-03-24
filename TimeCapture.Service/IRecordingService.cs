@@ -4,8 +4,8 @@ namespace TimeCapture.Service
 {
     interface IRecordingService
     {
-        void InsertRecording(RecordViewModel model);
-        void UpdateRecording(RecordViewModel model);
-        void DeleteRecording(RecordViewModel model);
+        void InsertRecording(Recording model);
+        void UpdateRecording(Recording model);
+        void DeleteRecording(Recording model);
     }
 }

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="8f8a06173e7d45caaa71b871eb4c9355" Name="Diagram1">
+        <EntityTypeShape EntityType="AderantModel.Activity" Width="1.5" PointX="3" PointY="2.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="AderantModel.Authorization" Width="1.5" PointX="5.25" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="AderantModel.Client" Width="1.5" PointX="3" PointY="11.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="AderantModel.Contact" Width="1.5" PointX="0.75" PointY="6.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="AderantModel.Lawyer_Task_Client" Width="1.5" PointX="8.25" PointY="6.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="AderantModel.Lookup" Width="1.5" PointX="0.75" PointY="3.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="AderantModel.Office" Width="1.5" PointX="3.75" PointY="18" IsExpanded="true" />
+        <EntityTypeShape EntityType="AderantModel.Recording" Width="1.5" PointX="5.25" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AderantModel.sysdiagram" Width="1.5" PointX="7.75" PointY="2" IsExpanded="true" />
+        <EntityTypeShape EntityType="AderantModel.Task" Width="1.5" PointX="6" PointY="18.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="AderantModel.TimeZone" Width="1.5" PointX="3" PointY="14.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AderantModel.User" Width="1.5" PointX="3" PointY="6.125" IsExpanded="true" />
+        <AssociationConnector Association="AderantModel.FK_Recording_Activity" ManuallyRouted="false" />
+        <AssociationConnector Association="AderantModel.FK_Authorization_User" ManuallyRouted="false" />
+        <AssociationConnector Association="AderantModel.FK_Authorization_User1" ManuallyRouted="false" />
+        <AssociationConnector Association="AderantModel.FK_Layer_Task_Client_Client" ManuallyRouted="false" />
+        <AssociationConnector Association="AderantModel.FK_Office_Client" ManuallyRouted="false" />
+        <AssociationConnector Association="AderantModel.FK_Recording_Client" ManuallyRouted="false" />
+        <AssociationConnector Association="AderantModel.FK_User_Contact" ManuallyRouted="false" />
+        <AssociationConnector Association="AderantModel.FK_Layer_Task_Client_Task" ManuallyRouted="false" />
+        <AssociationConnector Association="AderantModel.FK_Layer_Task_Client_User" ManuallyRouted="false" />
+        <AssociationConnector Association="AderantModel.FK_User_Lookup" ManuallyRouted="false" />
+        <AssociationConnector Association="AderantModel.FK_Task_Office" ManuallyRouted="false" />
+        <AssociationConnector Association="AderantModel.FK_Recording_TimeZone" ManuallyRouted="false" />
+        <AssociationConnector Association="AderantModel.FK_Recording_User" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
